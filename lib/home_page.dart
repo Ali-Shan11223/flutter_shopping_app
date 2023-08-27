@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_shopping_app/components/product_item.dart';
+import 'package:flutter_shopping_app/utils/global_variables.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -37,7 +39,7 @@ class _HomePageState extends State<HomePage> {
               padding: EdgeInsets.all(20),
               child: Text(
                 'Shoes\nCollection',
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
               ),
             ),
             Expanded(
@@ -72,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                     child: Chip(
                       backgroundColor: selectedFilter == filter
                           ? Theme.of(context).colorScheme.primary
-                          : Colors.blue.shade100,
+                          : Colors.blue.withOpacity(0.1),
                       padding: const EdgeInsets.symmetric(
                           horizontal: 20, vertical: 15),
                       label: Text(
@@ -83,7 +85,22 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               }),
-        )
+        ),
+        Expanded(
+            child: ListView.builder(
+                physics: const BouncingScrollPhysics(),
+                itemCount: products.length,
+                itemBuilder: (context, index) {
+                  final item = products[index];
+                  return ProductItem(
+                    title: item['title'] as String,
+                    price: item['price'] as double,
+                    imageUrl: item['imageUrl'] as String,
+                    backgroundColor: index.isEven
+                        ? Colors.blue.withOpacity(0.2)
+                        : Colors.grey.withOpacity(0.1),
+                  );
+                }))
       ],
     )));
   }
