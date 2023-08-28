@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_shopping_app/components/product_item.dart';
+import 'package:flutter_shopping_app/pages/product_detail_page.dart';
 import 'package:flutter_shopping_app/utils/global_variables.dart';
 
 class HomePage extends StatefulWidget {
@@ -33,7 +34,7 @@ class _HomePageState extends State<HomePage> {
         body: SafeArea(
             child: Column(
       children: [
-         Row(
+        Row(
           children: [
             Padding(
               padding: const EdgeInsets.all(20),
@@ -69,18 +70,20 @@ class _HomePageState extends State<HomePage> {
                       setState(() {
                         selectedFilter = filter;
                       });
-                      print('Tapped');
                     },
                     child: Chip(
                       backgroundColor: selectedFilter == filter
                           ? Theme.of(context).colorScheme.primary
                           : Colors.blue.withOpacity(0.1),
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 20, vertical: 15),
+                          horizontal: 15, vertical: 10),
                       label: Text(
                         filter,
                       ),
                       labelStyle: const TextStyle(fontSize: 16),
+                      side: BorderSide(color: Colors.blue.withOpacity(0.1)),
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30)),
                     ),
                   ),
                 );
@@ -92,13 +95,22 @@ class _HomePageState extends State<HomePage> {
                 itemCount: products.length,
                 itemBuilder: (context, index) {
                   final item = products[index];
-                  return ProductItem(
-                    title: item['title'] as String,
-                    price: item['price'] as double,
-                    imageUrl: item['imageUrl'] as String,
-                    backgroundColor: index.isEven
-                        ? Colors.blue.withOpacity(0.2)
-                        : Colors.grey.withOpacity(0.1),
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  ProductDetailPage(product: item)));
+                    },
+                    child: ProductItem(
+                      title: item['title'] as String,
+                      price: item['price'] as double,
+                      imageUrl: item['imageUrl'] as String,
+                      backgroundColor: index.isEven
+                          ? Colors.blue.withOpacity(0.2)
+                          : Colors.grey.withOpacity(0.1),
+                    ),
                   );
                 }))
       ],

@@ -9,7 +9,7 @@ class ProductDetailPage extends StatefulWidget {
 }
 
 class _ProductDetailPageState extends State<ProductDetailPage> {
- 
+  int selectedSize = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,14 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           style: Theme.of(context).textTheme.titleLarge,
         ),
         const Spacer(),
-        Image.asset(widget.product['imageUrl'] as String),
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child: Image.asset(
+            widget.product['imageUrl'] as String,
+            height: 300,
+            width: double.infinity,
+          ),
+        ),
         const Spacer(
           flex: 2,
         ),
@@ -39,6 +46,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
             padding: const EdgeInsets.symmetric(horizontal: 20),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   '\$${widget.product['price']}',
@@ -57,8 +65,18 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                             (widget.product['sizes'] as List<int>)[index];
                         return Padding(
                           padding: const EdgeInsets.only(right: 10),
-                          child: Chip(
-                            label: Text(size.toString()),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                selectedSize = size;
+                              });
+                            },
+                            child: Chip(
+                              label: Text(size.toString()),
+                              backgroundColor: selectedSize == size
+                                  ? Theme.of(context).colorScheme.primary
+                                  : null,
+                            ),
                           ),
                         );
                       }),
@@ -69,13 +87,13 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        minimumSize: Size(double.infinity, 50)),
+                        minimumSize: const Size(double.infinity, 50)),
                     onPressed: () {},
                     icon: const Icon(
                       Icons.shopping_cart,
                       color: Colors.black,
                     ),
-                    label: Text(
+                    label: const Text(
                       'Add to Cart',
                       style: TextStyle(
                           fontSize: 20,
