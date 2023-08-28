@@ -60,6 +60,16 @@ class _CartPageState extends State<CartPage> {
                                       actions: [
                                         TextButton(
                                             onPressed: () {
+                                              Navigator.of(context).pop();
+                                            },
+                                            child: const Text(
+                                              'No',
+                                              style: TextStyle(
+                                                  color: Colors.red,
+                                                  fontWeight: FontWeight.bold),
+                                            )),
+                                        TextButton(
+                                            onPressed: () {
                                               Provider.of<CartProvider>(context,
                                                       listen: false)
                                                   .removeFromCart(cartItem);
@@ -71,16 +81,6 @@ class _CartPageState extends State<CartPage> {
                                                   color: Colors.blue,
                                                   fontWeight: FontWeight.bold),
                                             )),
-                                        TextButton(
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: Text(
-                                              'No',
-                                              style: TextStyle(
-                                                  color: Colors.red,
-                                                  fontWeight: FontWeight.bold),
-                                            ))
                                       ],
                                     );
                                   });
