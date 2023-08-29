@@ -22,6 +22,8 @@ class _ProductListState extends State<ProductList> {
 
   @override
   Widget build(BuildContext context) {
+    // final screenWidth = MediaQuery.of(context).size.width;
+
     const border = OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.grey,
@@ -88,29 +90,62 @@ class _ProductListState extends State<ProductList> {
               }),
         ),
         Expanded(
-            child: ListView.builder(
-                physics: const BouncingScrollPhysics(),
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  final item = products[index];
-                  return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  ProductDetailPage(product: item)));
-                    },
-                    child: ProductItem(
-                      title: item['title'] as String,
-                      price: item['price'] as double,
-                      imageUrl: item['imageUrl'] as String,
-                      backgroundColor: index.isEven
-                          ? Colors.blue.withOpacity(0.2)
-                          : Colors.grey.withOpacity(0.1),
-                    ),
-                  );
-                }))
+          child: LayoutBuilder(builder: (context, constraints) {
+            if (constraints.maxWidth > 650) {
+              return GridView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: products.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    childAspectRatio: 2,
+                  ),
+                  itemBuilder: (context, index) {
+                    final item = products[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ProductDetailPage(product: item)));
+                      },
+                      child: ProductItem(
+                        title: item['title'] as String,
+                        price: item['price'] as double,
+                        imageUrl: item['imageUrl'] as String,
+                        backgroundColor: index.isEven
+                            ? Colors.blue.withOpacity(0.2)
+                            : Colors.grey.withOpacity(0.1),
+                      ),
+                    );
+                  });
+            } else {
+              return ListView.builder(
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: products.length,
+                  itemBuilder: (context, index) {
+                    final item = products[index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ProductDetailPage(product: item)));
+                      },
+                      child: ProductItem(
+                        title: item['title'] as String,
+                        price: item['price'] as double,
+                        imageUrl: item['imageUrl'] as String,
+                        backgroundColor: index.isEven
+                            ? Colors.blue.withOpacity(0.2)
+                            : Colors.grey.withOpacity(0.1),
+                      ),
+                    );
+                  });
+            }
+          }),
+        )
       ],
     ));
   }

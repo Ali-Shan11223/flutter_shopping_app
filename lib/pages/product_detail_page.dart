@@ -59,7 +59,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
           padding: const EdgeInsets.all(20),
           child: Image.asset(
             widget.product['imageUrl'] as String,
-            height: 300,
+            height: 250,
             width: double.infinity,
           ),
         ),
@@ -118,7 +118,7 @@ class _ProductDetailPageState extends State<ProductDetailPage> {
                 ElevatedButton.icon(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Theme.of(context).colorScheme.primary,
-                        minimumSize: const Size(double.infinity, 50)),
+                        fixedSize: const Size(350, 50)),
                     onPressed: addToCart,
                     icon: const Icon(
                       Icons.shopping_cart,
